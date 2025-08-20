@@ -203,7 +203,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👤 Author
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/suyashmudgal18)
+- GitHub: [@suyashmudgal](https://github.com/suyashmudgal18)
 - Email: suyashmudgal18@gmail.com
 
 ## 🆘 Support
@@ -225,3 +225,4 @@ If you encounter any issues or have questions:
 **Happy Task Managing! 🎉**
 
 *Built with ❤️ using Flask*
+
