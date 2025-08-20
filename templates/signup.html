@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Signup{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h2>Create Account</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        
+        <label>{{ form.username.label }}</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            {% for error in form.username.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+        
+        <label>{{ form.email.label }}</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            {% for error in form.email.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+        
+        <label>{{ form.password.label }}</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+            {% for error in form.password.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+        
+        <label>{{ form.confirm_password.label }}</label>
+        {{ form.confirm_password }}
+        {% if form.confirm_password.errors %}
+            {% for error in form.confirm_password.errors %}
+                <span class="error">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+        
+        {{ form.submit(class="btn") }}
+    </form>
+    <p class="text-center">
+        Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="dashboard">
+    <h2>Welcome, {{ current_user.username }}!</h2>
+    <a href="{{ url_for('tasks.add_task') }}" class="btn add-btn">+ Add Task</a>
+    <ul class="task-list">
+        {% for task in tasks %}
+            <li class="{% if task.status == 'completed' %}done{% endif %}">
+                <div>
+                    <strong>{{ task.title }}</strong>
+                    <p>{{ task.description }}</p>
+                    <small>Status: {{ task.status }} | Created: {{ task.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                <div class="actions">
+                    {% if task.status != 'completed' %}
+                        <form method="POST" action="{{ url_for('tasks.complete_task', task_id=task.id) }}">
+                            <button type="submit" class="btn small">Complete</button>
+                        </form>
+                    {% endif %}
+                    <form method="POST" action="{{ url_for('tasks.delete_task', task_id=task.id) }}">
+                        <button type="submit" class="btn small danger">Delete</button>
+                    </form>
+                </div>
+            </li>
+        {% else %}
+            <p>No tasks found. Add one now!</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

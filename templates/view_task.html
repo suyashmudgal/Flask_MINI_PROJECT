@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ task.title }}{% endblock %}
+{% block content %}
+<div class="dashboard">
+    <h2>{{ task.title }}</h2>
+    <div class="task-detail">
+        <p><strong>Description:</strong></p>
+        <p>{{ task.description }}</p>
+        <p><strong>Status:</strong> {{ task.status }}</p>
+        <p><strong>Created:</strong> {{ task.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        <p><strong>Updated:</strong> {{ task.updated_at.strftime('%Y-%m-%d %H:%M') }}</p>
+    </div>
+    <div class="actions">
+        <a href="{{ url_for('tasks.dashboard') }}" class="btn">Back to Dashboard</a>
+        {% if task.status != 'completed' %}
+            <form method="POST" action="{{ url_for('tasks.complete_task', task_id=task.id) }}" style="display: inline;">
+                <button type="submit" class="btn">Complete Task</button>
+            </form>
+        {% endif %}
+        <form method="POST" action="{{ url_for('tasks.delete_task', task_id=task.id) }}" style="display: inline;">
+            <button type="submit" class="btn danger">Delete Task</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+```
+
+```
