@@ -7,6 +7,7 @@ from config import config
 from models import db, User
 from routes.auth import auth_bp
 from routes.tasks import tasks_bp
+from flask_mail import Mail
 
 app = Flask(__name__)
 app.config.from_object(config)
@@ -17,6 +18,9 @@ db.init_app(app)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'auth.login'
+
+# Initialize Flask-Mail
+mail = Mail(app)
 
 @login_manager.user_loader
 def load_user(user_id):

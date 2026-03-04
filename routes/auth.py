@@ -2,6 +2,8 @@ from flask import render_template, request, redirect, url_for, flash, Blueprint
 from flask_login import login_user, logout_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import RegistrationForm, LoginForm
+from flask_mail import Message
+from flask import current_app
 from models import db, User
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -31,6 +33,15 @@ def signup():
         try:
             db.session.add(new_user)
             db.session.commit()
+            # Send signup success email
+            try:
+                from app import mail
+                msg = Message(subject='Registration Successful',
+                              recipients=[new_user.email])
+                msg.body = f"Hello {new_user.username},\n\nYour account has been created successfully."
+                mail.send(msg)
+            except Exception as e:
+                print(f"Signup email send failed: {e}")
             flash('Registration successful! Please log in.', 'success')
             return redirect(url_for('auth.login'))
         except Exception as e:
@@ -54,6 +65,15 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user)
             flash(f"Welcome {user.username}!", 'success')
+            # Send login success email
+            try:
+                from app import mail
+                msg = Message(subject='Login Successful',
+                              recipients=[user.email])
+                msg.body = f"Hello {user.username},\n\nYou have successfully logged in. If this wasn't you, please reset your password."
+                mail.send(msg)
+            except Exception as e:
+                print(f"Login email send failed: {e}")
             return redirect(url_for('tasks.dashboard'))
         else:
             flash('Invalid email or password.', 'danger')
